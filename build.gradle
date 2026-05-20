@@ -1,0 +1,97 @@
+buildscript {  
+    repositories {  
+        mavenCentral()  
+        maven { url = 'https://maven.minecraftforge.net' }  
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public' }  
+    }  
+    dependencies {  
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'  
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '6.0.+', changing: true  
+    }  
+}  
+  
+plugins {  
+    id 'eclipse'  
+    id 'maven-publish'  
+}  
+apply plugin: 'net.minecraftforge.gradle'  
+apply plugin: 'org.spongepowered.mixin'  
+  
+version = "${mod_version}"  
+group = 'deliciousbread481'  
+  
+java {  
+    archivesBaseName = 'ThirstFixBukketNPE'  
+    toolchain.languageVersion = JavaLanguageVersion.of(17)  
+}  
+compileJava {  
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'  
+}  
+  
+minecraft {  
+    mappings channel: 'official', version: '1.20.1'  
+    runs {  
+        client {  
+            workingDirectory project.file('run')  
+            property 'forge.logging.markers', 'REGISTRIES'  
+            property 'forge.logging.console.level', 'debug'  
+            mods {  
+                thirstfixbukketsnpe {  
+                    source sourceSets.main  
+                }  
+            }  
+            arg "-mixin.config=thirstfixbukketsnpe.mixin.json"  
+        }  
+        server {  
+            workingDirectory project.file('run')  
+            property 'forge.logging.markers', 'REGISTRIES'  
+            property 'forge.logging.console.level', 'debug'  
+            mods {  
+                thirstfixbukketsnpe {  
+                    source sourceSets.main  
+                }  
+            }  
+            arg "-mixin.config=thirstfixbukketsnpe.mixin.json"  
+        }  
+    }  
+}  
+  
+repositories {  
+    maven {  
+        url "https://cursemaven.com"  
+        content {  
+            includeGroup "curse.maven"  
+        }  
+    }  
+}  
+  
+dependencies {  
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.0'  
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'  
+}  
+  
+mixin {  
+    add sourceSets.main, "thirstfixbukketsnpe.refmap.json"  
+    config 'thirstfixbukketsnpe.mixin.json'  
+}  
+  
+jar {  
+    manifest {  
+        attributes([  
+                "Specification-Title"     : "thirstfixbukketsnpe",  
+                "Specification-Vendor"    : "deliciousbread481",  
+                "Specification-Version"   : "1",  
+                "Implementation-Title"    : "ThirstFixBukketNPE",  
+                "Implementation-Version"  : mod_version,  
+                "Implementation-Vendor"   : "deliciousbread481",  
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),  
+                "MixinConfigs"            : "thirstfixbukketsnpe.mixin.json"  
+        ])  
+    }  
+}  
+  
+jar.finalizedBy('reobfJar')  
+  
+tasks.withType(JavaCompile).configureEach {  
+    options.encoding = 'UTF-8'  
+}

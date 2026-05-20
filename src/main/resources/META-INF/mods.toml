@@ -1,0 +1,26 @@
+modLoader="javafml"  
+loaderVersion="[46,)"  
+license="MIT license"  
+  
+[[mods]]  
+modId="thirstfixbukketsnpe"  
+version="${file.jarVersion}"  
+displayName="Thirst Fix Bukket NPE"  
+description='''  
+Fixes NullPointerException in Thirst mod's AbstractCookingRecipe mixin.  
+This mod ensures that ItemStacks have NBT tags before Thirst's mixin tries to access them.  
+'''  
+  
+[[dependencies.thirstfixbukketsnpe]]  
+    modId="forge"  
+    mandatory=true  
+    versionRange="[47.3.0,)"  
+    ordering="NONE"  
+    side="BOTH"  
+  
+[[dependencies.thirstfixbukketsnpe]]  
+    modId="minecraft"  
+    mandatory=true  
+    versionRange="[1.20,1.20.2)"  
+    ordering="NONE"  
+    side="BOTH"

@@ -1,0 +1,10 @@
+{  
+  "required": true,  
+  "package": "deliciousbread481.thirstfixbukketsnpe.mixin",  
+  "compatibilityLevel": "JAVA_17",  
+  "refmap": "thirstfixbukketsnpe.refmap.json",  
+  "mixins": [  
+    "AbstractCookingRecipeMixin"  
+  ],  
+  "minVersion": "0.8"  
+}
