@@ -1,26 +1,22 @@
 package deliciousbread481.thirstfixbukketsnpe.mixin;  
   
+import net.minecraft.world.Container;  
 import net.minecraft.world.item.ItemStack;  
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;  
+import net.minecraft.world.level.Level;  
 import org.spongepowered.asm.mixin.Mixin;  
 import org.spongepowered.asm.mixin.injection.At;  
-import org.spongepowered.asm.mixin.injection.ModifyArg;  
+import org.spongepowered.asm.mixin.injection.Inject;  
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;  
   
-@Mixin(value = AbstractCookingRecipe.class, priority = 1100) // 设置更高的优先级  
+@Mixin(value = AbstractCookingRecipe.class, priority = 1100)  
 public class AbstractCookingRecipeMixin {  
       
-    @ModifyArg(  
-        method = "matches",   
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/crafting/Ingredient;test(Lnet/minecraft/world/item/ItemStack;)Z"),  
-        index = 0,  
-        require = 0  
-    )  
-    public ItemStack fixNPE(ItemStack itemStack) {  
+    @Inject(method = "matches", at = @At("HEAD"), cancellable = true, require = 0)  
+    private void fixNPE(Container container, Level level, CallbackInfoReturnable<Boolean> cir) {  
+        ItemStack itemStack = container.getItem(0);  
         if (itemStack != null && !itemStack.hasTag()) {  
-            ItemStack copy = itemStack.copy();  
-            copy.getOrCreateTag();
-            return copy;  
+            itemStack.getOrCreateTag();  
         }  
-        return itemStack;  
     }  
 }
